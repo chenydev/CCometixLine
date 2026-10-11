@@ -162,3 +162,21 @@ pub fn usage_segment() -> SegmentConfig {
         },
     }
 }
+
+pub fn cache_segment() -> SegmentConfig {
+    SegmentConfig {
+        id: SegmentId::Cache,
+        enabled: true,
+        icon: IconConfig {
+            plain: "💾".to_string(),
+            nerd_font: "\u{f162a}".to_string(), // md-database_clock_outline
+        },
+        colors: ColorConfig {
+            icon: Some(AnsiColor::Color256 { c256: 142 }), // Gruvbox green
+            text: Some(AnsiColor::Color256 { c256: 142 }),
+            background: None,
+        },
+        styles: TextStyleConfig { text_bold: true },
+        options: HashMap::new(),
+    }
+}

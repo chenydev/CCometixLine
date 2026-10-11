@@ -258,3 +258,33 @@ pub fn usage_segment() -> SegmentConfig {
         },
     }
 }
+
+pub fn cache_segment() -> SegmentConfig {
+    SegmentConfig {
+        id: SegmentId::Cache,
+        enabled: true,
+        icon: IconConfig {
+            plain: "💾".to_string(),
+            nerd_font: "\u{f162a}".to_string(), // md-database_clock_outline
+        },
+        colors: ColorConfig {
+            icon: Some(AnsiColor::Rgb {
+                r: 158,
+                g: 206,
+                b: 106,
+            }),
+            text: Some(AnsiColor::Rgb {
+                r: 158,
+                g: 206,
+                b: 106,
+            }),
+            background: Some(AnsiColor::Rgb {
+                r: 41,
+                g: 46,
+                b: 66,
+            }), // Tokyo Night darker background
+        },
+        styles: TextStyleConfig::default(),
+        options: HashMap::new(),
+    }
+}

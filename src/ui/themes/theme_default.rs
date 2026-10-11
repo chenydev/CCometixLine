@@ -162,3 +162,21 @@ pub fn output_style_segment() -> SegmentConfig {
         options: HashMap::new(),
     }
 }
+
+pub fn cache_segment() -> SegmentConfig {
+    SegmentConfig {
+        id: SegmentId::Cache,
+        enabled: true,
+        icon: IconConfig {
+            plain: "💾".to_string(),
+            nerd_font: "\u{f162a}".to_string(), // md-database_clock_outline
+        },
+        colors: ColorConfig {
+            icon: Some(AnsiColor::Color16 { c16: 2 }), // Green
+            text: Some(AnsiColor::Color16 { c16: 2 }),
+            background: None,
+        },
+        styles: TextStyleConfig::default(),
+        options: HashMap::new(),
+    }
+}

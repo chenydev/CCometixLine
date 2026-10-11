@@ -509,6 +509,11 @@ pub fn collect_all_segments(
                 let segment = UpdateSegment::new();
                 segment.collect(input)
             }
+            crate::config::SegmentId::Cache => {
+                let segment =
+                    CacheSegment::new().with_background(segment_config.colors.background.clone());
+                segment.collect(input)
+            }
         };
 
         if let Some(data) = segment_data {

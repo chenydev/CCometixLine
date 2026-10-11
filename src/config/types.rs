@@ -73,6 +73,7 @@ pub enum SegmentId {
     Session,
     OutputStyle,
     Update,
+    Cache,
 }
 
 // Legacy compatibility structure
@@ -111,12 +112,34 @@ pub struct OutputStyle {
 }
 
 #[derive(Deserialize)]
+pub struct CurrentUsage {
+    #[serde(default)]
+    pub input_tokens: u64,
+    #[serde(default)]
+    pub output_tokens: u64,
+    #[serde(default)]
+    pub cache_creation_input_tokens: u64,
+    #[serde(default)]
+    pub cache_read_input_tokens: u64,
+}
+
+#[derive(Deserialize)]
+pub struct ContextWindowInfo {
+    #[serde(default)]
+    pub current_usage: Option<CurrentUsage>,
+}
+
+#[derive(Deserialize)]
 pub struct InputData {
+    #[serde(default)]
+    pub session_id: Option<String>,
     pub model: Model,
     pub workspace: Workspace,
     pub transcript_path: String,
     pub cost: Option<Cost>,
     pub output_style: Option<OutputStyle>,
+    #[serde(default)]
+    pub context_window: Option<ContextWindowInfo>,
 }
 
 // OpenAI-style nested token details
@@ -240,6 +263,16 @@ impl NormalizedUsage {
 }
 
 impl Config {
+    /// Append segments added in newer versions that an older TOML file lacks
+    pub fn fill_missing_segments(&mut self) {
+        let builtin = crate::ui::themes::ThemePresets::get_builtin_theme(&self.theme);
+        for segment in builtin.segments {
+            if !self.segments.iter().any(|s| s.id == segment.id) {
+                self.segments.push(segment);
+            }
+        }
+    }
+
     /// Check if current config matches the specified theme preset
     pub fn matches_theme(&self, theme_name: &str) -> bool {
         let theme_preset = crate::ui::themes::ThemePresets::get_theme(theme_name);

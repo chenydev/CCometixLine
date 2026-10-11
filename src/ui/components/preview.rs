@@ -170,6 +170,11 @@ impl PreviewComponent {
                         map
                     },
                 },
+                SegmentId::Cache => SegmentData {
+                    primary: "\x1b[32m87%\x1b[25;39m".to_string(),
+                    secondary: "· \x1b[32m42:13\x1b[25;39m".to_string(),
+                    metadata: HashMap::new(),
+                },
                 SegmentId::Update => SegmentData {
                     primary: format!("v{}", env!("CARGO_PKG_VERSION")),
                     secondary: "".to_string(),
