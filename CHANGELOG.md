@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-10-11
+
+### Added
+- **Cache Segment**: Prompt cache hit rate and TTL countdown
+  - Hit rate = `cache_read / (input + cache_creation + cache_read)` from `context_window.current_usage`; green ≥50%, gray <50%
+  - 1-hour TTL countdown from the last response; resets only when the usage signature changes
+  - Countdown colors: green 0-20m, yellow 20-40m, red 40-55m, blinking red last 5m, gray `exp` when expired
+  - Per-session state under `~/.claude/ccline/cache/`, keyed by a hash of `session_id`; falls back to the previous hit rate before the first response
+  - Status colors adapt to the segment background (WCAG contrast); falls back to a badge when contrast is too low
+  - Set `"refreshInterval": 1` in the `statusLine` settings for a live countdown
+- **Segment Backfill**: Segments added in newer versions are appended to older theme/config TOML files on load
+
+### Changed
+- **Release Workflow**: npm publishing only runs in the upstream repository
+
 ## [1.1.2] - 2026-03-15
 
 ### Changed
